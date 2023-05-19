@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@500&family=Nunito&family=Quicksand:wght@500&family=Signika&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="style2-addToClass.css">
+    <title>peyman</title>
+</head>
+
+<!-- ****************************************************** Developed By Peyman Motamedifar ***************************************************
+Website   = peyman-web.ir
+
+Linkedin  = https://www.linkedin.com/in/peymanmotamedifar/
+
+Github    = https://github.com/peymanmotamedifar
+
+Instagram = peyman_web
+
+Email     = peymanmotamedi.web@gmail.com -->
+
+<body>
+
+    <main class="main">
+
+        <section class="section1">
+            <div class="section1_div1">
+                <h3>Class List</h3>
+                <button id="btn1">
+                    <span></span> <span></span> <span></span> <span></span>
+                    Open
+                </button>
+            </div>
+
+
+            <div class="section1_div2">
+                <div class="section1_div3">
+                    <div>
+                        <div>
+                            <label>full name :</label>
+                            <input id="i1" type="text">
+                            <div><span id="_err1"></span></div>
+                        </div>
+                        <div>
+                            <label>Score :</label>
+                            <input id="i2" type="text">
+                            <div><span id="_err2"></span></div>
+                        </div>
+                    </div>
+                    <button onclick="_add()">Add</button>
+                </div>
+
+
+                <div class="section1_div4">
+                    <div id="addList">
+                        <div id="fs">
+                            <span>Full Name</span>
+                            <span>Score</span>
+                        </div>
+                    </div>
+                    <div class="dbtn">
+                        <button onclick="max()">Max</button>
+                        <button onclick="min()">Min</button>
+                        <button onclick="ave()">Ave</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section1_div5" id="pop">
+                <div><span><span class="material-symbols-outlined">close</span></span></div>
+                <p></p>
+            </div>
+        </section>
+
+    </main>
+
+
+
+
+
+
+    <script>
+        let d1 = document.querySelector('.section1_div1');
+        let d2 = document.querySelector('.section1_div2');
+        let btn1 = document.getElementById('btn1')
+        btn1.addEventListener("click", function () {
+            d1.style.transform = 'translateY(-4000px)';
+            d2.style.transform = 'scale(1)'
+        })
+
+        let _list = []
+        let _score = []
+        let _number = []
+        let i = 0
+        let av = 0
+
+
+        function _add() {
+            let _fn = document.getElementById('i1')
+            let _sco = document.getElementById('i2')
+            let _div = document.getElementById('addList')
+            let e1 = document.getElementById('_err1')
+            let e2 = document.getElementById('_err2')
+            if ((_fn.value == null) || (_fn.value == '') || (_sco.value == null) || (_sco.value == '')) {
+                e1.innerHTML = "please fill the input  !"
+                e2.innerHTML = "please fill the input  !"
+            } else if (
+                ((_sco.value.search(/[a-z]/)) >= 0) ||
+                ((_sco.value.search(/[A-Z]/)) >= 0) ||
+                ((_sco.value.search(/[@~!#$%^&*()_+=./?-]/)) >= 0) ||
+                ((_sco.value.search(/[\s]/)) >= 0)
+            ) {
+
+                if (
+                    ((_fn.value.search(/[0-9]/)) >= 0) ||
+                    ((_fn.value.search(/[@~!#$%^&*()+=/?]/)) >= 0)
+                ) {
+                    e1.innerHTML = 'only letter for full name please  !'
+                }
+
+                e2.innerHTML = 'only number for score please  !'
+            } else if (
+                ((_fn.value.search(/[0-9]/)) >= 0) ||
+                ((_fn.value.search(/[@~!#$%^&*()+=/?]/)) >= 0)
+            ) {
+                e1.innerHTML = 'only letter for full name please  !'
+                e2.innerHTML = null
+            } else {
+                e1.innerHTML = null
+                e2.innerHTML = null
+                _list[i] = _fn.value
+                _score[i] = parseInt(_sco.value)
+                _number[i] = i + 1
+                let x = `<div class="row">
+                     <span class="num">${_number[i]} -</span>
+                     <h4 class="fn">${_list[i]}</h4>
+                    <span class="score">${_score[i]}</span>
+                 </div>`;
+
+                _div.innerHTML += x
+
+                i++
+                av++
+
+                _fn.value = null
+                _sco.value = null
+                _fn.focus()
+            }
+
+        }
+
+
+
+        let _pop = document.querySelector('#pop>p')
+        let _popUp = document.querySelector('#pop')
+        let _close = document.querySelector('#pop>div>span')
+
+        _close.addEventListener('click', function () {
+            _popUp.style.transform = 'translateX(-50%) scale(0)'
+        })
+
+
+        function max() {
+            let flag2 = 0
+            _pop.innerHTML = '';
+            let _max = Math.max(..._score)
+            for (i = 0; i < _score.length; i++) {
+                if (_max == _score[i]) {
+                    let ii = i
+
+
+                    let ma = _list[ii]
+                    _popUp.style.transform = 'translateX(-50%) scale(1)'
+
+
+
+                    if (flag2 == 0) {
+                        _pop.innerHTML +=
+                            `<strong  id='st'>Maximum</strong> \u00A0 Score is \u00A0 <strong class='st' id='st'>${_max}</strong> \u00A0 for \u00A0 <strong id='st'>${ma}</strong>  `
+                        flag2++
+                    } else {
+                        _pop.innerHTML += `\u00A0 and \u00A0 <strong id='st'>${ma}</strong> \u00A0 `
+                    }
+
+                }
+            }
+
+        }
+
+
+
+
+
+
+        function min() {
+            let flag2 = 0
+            _pop.innerHTML = '';
+            let _min = Math.min(..._score)
+            for (i = 0; i < _score.length; i++) {
+                if (_min == _score[i]) {
+                    let ii = i
+
+                    let mi = _list[ii]
+                    _popUp.style.transform = 'translateX(-50%) scale(1)'
+
+                    if (flag2 == 0) {
+                        _pop.innerHTML +=
+                            `<strong  id='st'>Minimum</strong> \u00A0 Score is \u00A0 <strong class='st' id='st'>${_min}</strong> \u00A0 for \u00A0 <strong id='st'>${mi}</strong>  `
+                        flag2++
+                    } else {
+                        _pop.innerHTML += `\u00A0 and \u00A0 <strong id='st'>${mi}</strong> \u00A0 `
+                    }
+
+                }
+            }
+        }
+
+
+        let total = 0
+        let _ave = 0
+
+        function ave() {
+            if (av == 0) {
+                _popUp.style.transform = 'translateX(-50%) scale(1)'
+                _pop.innerHTML = 'You have not entered a score'
+            } else {
+                for (i = 0; i < _score.length; i++) {
+
+                    let tot = _score[i]
+                    total += tot
+                }
+                _ave = (total / (_score.length))
+                _popUp.style.transform = 'translateX(-50%) scale(1)'
+                _pop.innerHTML =
+                    `<strong id='st'>average</strong> \u00A0 score is \u00A0 <strong id='st'>${_ave}</strong>`
+                total = 0;
+            }
+        }
+    </script>
+</body>
+
+</html>
